@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VIVIR A LO MAX – Viña Errázuriz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Lato:wght@300;400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold:       #d4b68e;
+      --gold-light: #e8cfa8;
+      --gold-dark:  #a8895e;
+      --wine:       #5c1a1a;
+      --wine-dark:  #2e0a0a;
+      --black:      #212529;
+      --off-white:  #f5f0e8;
+      --gray:       #b0a898;
+      --error:      #e34f4f;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--black);
+      color: var(--off-white);
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════════════════════════════════
+       KEY VISUAL — ocupa toda la pantalla desde arriba
+    ═══════════════════════════════════════════ */
+    .hero-kv {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 500px;
+      overflow: hidden;
+    }
+
+    .hero-kv-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    /* Sombra suave al fondo para transición a negro */
+    .hero-kv-fade {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 30%;
+      background: linear-gradient(to top, var(--black) 0%, transparent 100%);
+      pointer-events: none;
+    }
+
+    /* ═══════════════════════════════════════════
+       INTRO TEXT — debajo del KV
+    ═══════════════════════════════════════════ */
+    .intro-text {
+      background: var(--black);
+      text-align: center;
+      padding: 5rem 2rem 5.5rem;
+    }
+
+    .intro-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1rem, 2.5vw, 1.35rem);
+      color: var(--gold-light);
+      letter-spacing: 0.14em;
+      margin-bottom: 0.9rem;
+    }
+
+    .intro-headline {
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--off-white);
+      margin-bottom: 0;
+    }
+
+    .divider-gold {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 1.8rem auto;
+    }
+
+    .intro-desc {
+      font-size: clamp(0.9rem, 1.8vw, 1.02rem);
+      color: var(--gray);
+      line-height: 1.95;
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .btn-gold {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+      color: var(--black);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 1rem 2.8rem;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .btn-gold:hover { opacity: 0.85; transform: translateY(-2px); }
+
+    /* ═══════════════════════════════════════════
+       ABOUT
+    ═══════════════════════════════════════════ */
+    .about {
+      padding: 5rem 2rem 6rem;
+      max-width: 760px;
+      margin: 0 auto;
+      text-align: center;
+      border-top: 1px solid rgba(201,168,76,0.12);
+    }
+
+    .section-label {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.63rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.4rem;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.9rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title em {
+      font-style: italic;
+      color: var(--gold-light);
+    }
+
+    /* ═══════════════════════════════════════════
+       PRIZE STRIP
+    ═══════════════════════════════════════════ */
+    .prize-strip {
+      background: #0d0f11;
+      border-top: 1px solid rgba(201,168,76,0.25);
+      border-bottom: 1px solid rgba(201,168,76,0.25);
+      padding: 5rem 2rem;
+    }
+
+    .prize-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 3rem;
+      text-align: center;
+    }
+
+    .prize-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .prize-icon {
+      width: 56px; height: 56px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .prize-icon svg { width: 24px; height: 24px; fill: var(--gold); }
+
+    .prize-item h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--off-white);
+    }
+    .prize-item p {
+      font-size: 0.88rem;
+      color: var(--gray);
+      line-height: 1.7;
+    }
+
+    /* ═══════════════════════════════════════════
+       CASONA (solo imagen, sin texto)
+    ═══════════════════════════════════════════ */
+    .casona-section {
+      position: relative;
+      height: clamp(360px, 50vw, 600px);
+      overflow: hidden;
+    }
+
+    .casona-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 40%;
+      display: block;
+      filter: brightness(0.6) saturate(0.85);
+      transition: transform 8s ease-out;
+    }
+    .casona-section:hover .casona-img { transform: scale(1.03); }
+
+    .casona-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg,
+        rgba(9,9,9,0.45) 0%,
+        rgba(9,9,9,0.05) 40%,
+        rgba(9,9,9,0.05) 60%,
+        rgba(9,9,9,0.55) 100%
+      );
+    }
+
+    /* ═══════════════════════════════════════════
+       FORM SECTION
+    ═══════════════════════════════════════════ */
+    .form-section {
+      padding: 7rem 2rem;
+      position: relative;
+    }
+    .form-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%; transform: translateX(-50%);
+      width: 1px; height: 80px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+
+    .form-wrapper { max-width: 640px; margin: 0 auto; }
+    .form-header { text-align: center; margin-bottom: 3.5rem; }
+
+    .form-box {
+      background: linear-gradient(160deg, #16191c 0%, #1a1d20 100%);
+      border: 1px solid rgba(201,168,76,0.2);
+      padding: 3rem 3.5rem;
+      position: relative;
+    }
+    .form-box::before, .form-box::after {
+      content: ''; position: absolute;
+      width: 20px; height: 20px;
+      border-color: var(--gold); border-style: solid;
+    }
+    .form-box::before { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+    .form-box::after  { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+
+    .form-group {
+      display: flex; flex-direction: column;
+      gap: 0.5rem; margin-bottom: 1.2rem;
+    }
+
+    label {
+      font-size: 0.66rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-family: 'Lato', sans-serif;
+      font-weight: 400;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"] {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(201,168,76,0.35);
+      color: var(--off-white);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 300;
+      padding: 0.65rem 0;
+      outline: none;
+      transition: border-color 0.3s;
+      width: 100%;
+    }
+    input::placeholder { color: rgba(176,168,152,0.4); }
+    input:focus { border-bottom-color: var(--gold); }
+
+    .checkbox-group {
+      display: flex; align-items: flex-start;
+      gap: 0.8rem; margin: 1.4rem 0;
+    }
+    .checkbox-group input[type="checkbox"] {
+      width: 16px; height: 16px;
+      flex-shrink: 0; margin-top: 2px;
+      accent-color: var(--gold); cursor: pointer;
+    }
+    .checkbox-group span {
+      font-size: 0.78rem;
+      color: var(--gray);
+      line-height: 1.6;
+    }
+    .checkbox-group a { color: var(--gold); text-decoration: none; }
+    .checkbox-group a:hover { text-decoration: underline; }
+
+    .form-submit { text-align: center; margin-top: 2rem; }
+
+    .btn-gold-outline {
+      display: inline-block;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.74rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 0.95rem 2.6rem;
+      background: transparent; cursor: pointer;
+      transition: background 0.3s, color 0.3s, transform 0.3s;
+    }
+    .btn-gold-outline:hover {
+      background: var(--gold); color: var(--black);
+      transform: translateY(-2px);
+    }
+
+    .form-note {
+      text-align: center;
+      font-size: 0.71rem;
+      color: rgba(176,168,152,0.5);
+      margin-top: 1.5rem;
+      line-height: 1.7;
+    }
+    .form-note a { color: var(--gold); text-decoration: none; }
+    .form-note a:hover { text-decoration: underline; }
+
+    /* Success */
+    .success-msg {
+      display: none; text-align: center;
+      padding: 3rem 2rem;
+      animation: fadeUp 0.6s ease both;
+    }
+    .success-msg .check {
+      width: 60px; height: 60px;
+      border: 1px solid var(--gold); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.5rem;
+    }
+    .success-msg .check svg { width: 26px; height: 26px; stroke: var(--gold); fill: none; stroke-width: 2; }
+    .success-msg h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem; color: var(--off-white); margin-bottom: 0.8rem;
+    }
+    .success-msg p { font-size: 0.95rem; color: var(--gray); line-height: 1.7; }
+
+    /* ═══════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════ */
+    footer {
+      border-top: 1px solid rgba(201,168,76,0.15);
+      padding: 3.5rem 2rem;
+      text-align: center;
+      background: #050505;
+    }
+
+    .footer-logo img {
+      width: clamp(110px, 14vw, 175px);
+      opacity: 0.88;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .footer-divider {
+      width: 40px; height: 1px;
+      background: var(--gold);
+      margin: 1.8rem auto;
+      opacity: 0.4;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem; flex-wrap: wrap;
+      margin-bottom: 1.8rem;
+    }
+    .footer-links a {
+      font-size: 0.68rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gray); text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+
+    .footer-legal {
+      font-size: 0.7rem;
+      color: rgba(176,168,152,0.38);
+      line-height: 1.75;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ═══════════════════════════════════════════
+       ANIMATIONS & UTILITIES
+    ═══════════════════════════════════════════ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.85s ease, transform 0.85s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ═══════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════ */
+    @media (max-width: 600px) {
+      .form-row { grid-template-columns: 1fr; }
+      .form-box { padding: 2rem 1.5rem; }
+      .prize-inner { grid-template-columns: 1fr; gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════ KEY VISUAL (desde el top) ════════════ -->
+  <section class="hero-kv">
+    <img class="hero-kv-img" src="Recursos/kv_web.jpg" alt="Vivir a lo MAX – Key Visual" />
+    <div class="hero-kv-fade"></div>
+  </section>
+
+  <!-- ═══════════════ TEXTO INTRO (después del KV) ════════ -->
+  <div class="intro-text reveal">
+    <p class="intro-tagline">Valle de Aconcagua · Chile</p>
+    <p class="intro-headline">Gana una experiencia única en nuestra viña</p>
+    <div class="divider-gold"></div>
+    <p class="intro-desc">
+      Porque algunos vinos no solo se beben — se viven.<br/>
+      Participa y gana una visita exclusiva a Viña Errázuriz<br/>
+      en el corazón del Valle de Aconcagua.
+    </p>
+    <a href="#participar" class="btn-gold">Participar ahora</a>
+  </div>
+
+  <!-- ═══════════════ ABOUT ════════════════════════════════ -->
+  <section class="about reveal">
+    <p class="section-label">La experiencia</p>
+    <h2 class="section-title">
+      Un vino que nació para quienes deciden<br/>
+      <em>vivir experiencias memorables</em>
+    </h2>
+    <div class="divider-gold"></div>
+  </section>
+
+  <!-- ═══════════════ PRIZE STRIP ═════════════════════════ -->
+  <section class="prize-strip">
+    <div class="prize-inner">
+
+      <div class="prize-item reveal">
+        <div class="prize-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#d4b68e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="7" r="2"/><circle cx="15" cy="7" r="2"/>
+            <circle cx="6" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="18" cy="12" r="2"/>
+            <circle cx="9" cy="17" r="2"/><circle cx="15" cy="17" r="2"/>
+            <path d="M12 5V2m0 0c1-1 3-1.5 4.5-1"/>
+          </svg>
+        </div>
+        <h3>Tour por la Viña</h3>
+        <p>Recorre los viñedos del Valle de Aconcagua con un guía experto y descubre los secretos detrás de MAX.</p>
+      </div>
+
+      <div class="prize-item reveal">
+        <div class="prize-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#d4b68e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 3h10l-2.5 8a5 5 0 01-5 0L7 3z"/>
+            <line x1="12" y1="16" x2="12" y2="21"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+          </svg>
+        </div>
+        <h3>Cata Exclusiva</h3>
+        <p>Degustación guiada de la línea Errázuriz MAX.</p>
+      </div>
+
+      <div class="prize-item reveal">
+        <div class="prize-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#d4b68e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <h3>Experiencia VIP</h3>
+        <p>Almuerzo maridaje para dos personas en el corazón de la viña, con vistas inigualables a la cordillera.</p>
+      </div>
+
+      <div class="prize-item reveal">
+        <div class="prize-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#d4b68e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="9" width="18" height="13" rx="1"/>
+            <path d="M3 13h18M12 22V9"/>
+            <path d="M12 9H7.5a2.5 2.5 0 010-5C11 4 12 9 12 9z"/>
+            <path d="M12 9h4.5a2.5 2.5 0 000-5C13 4 12 9 12 9z"/>
+          </svg>
+        </div>
+        <h3>Kit MAX de Regalo</h3>
+        <p>Llévate a casa una botella firmada de MAX Cabernet Sauvignon y merchandising exclusivo de la campaña.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════ CASONA (solo imagen) ════════════════ -->
+  <section class="casona-section">
+    <img class="casona-img" src="Recursos/casona_web.jpg" alt="Casona Errázuriz – Valle de Aconcagua" />
+    <div class="casona-overlay"></div>
+  </section>
+
+  <!-- ═══════════════ FORMULARIO ═══════════════════════════ -->
+  <section class="form-section" id="participar">
+    <div class="form-wrapper">
+
+      <div class="form-header reveal">
+        <h2 class="section-title" style="margin-bottom:1rem;">
+          Inscríbete y<br/><em>vive a lo MAX</em>
+        </h2>
+        <p style="font-size:0.9rem; color:var(--gray); line-height:1.85; max-width:480px; margin:0 auto;">
+          Completa el formulario para participar. El ganador será
+          contactado al correo registrado. Válido para mayores de 18 años residentes en Chile.
+        </p>
+      </div>
+
+      <div class="form-box reveal" id="formBox">
+
+        <form id="concursoForm" novalidate>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
+            </div>
+            <div class="form-group">
+              <label for="apellido">Apellido</label>
+              <input type="text" id="apellido" name="apellido" placeholder="Tu apellido" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Correo electrónico</label>
+              <input type="email" id="email" name="email" placeholder="tucorreo@email.com" required />
+            </div>
+            <div class="form-group">
+              <label for="telefono">Teléfono</label>
+              <input type="tel" id="telefono" name="telefono" placeholder="+56 9 xxxx xxxx" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="rut">RUT</label>
+            <input type="text" id="rut" name="rut" placeholder="12.345.678-9" required maxlength="12" />
+          </div>
+
+          <div class="checkbox-group">
+            <input type="checkbox" id="mayoria" name="mayoria" required />
+            <span>Confirmo que tengo <strong>18 años o más</strong> y acepto las
+              <a href="#bases">bases y condiciones del concurso</a> y la
+              <a href="#">política de privacidad</a> de Viña Errázuriz.</span>
+          </div>
+
+          <div class="checkbox-group">
+            <input type="checkbox" id="marketing" name="marketing" />
+            <span>Acepto recibir comunicaciones y ofertas de Viña Errázuriz. (Opcional)</span>
+          </div>
+
+          <div class="form-submit">
+            <button type="submit" class="btn-gold-outline">Participar en el concurso</button>
+          </div>
+
+          <p class="form-note">
+            Concurso vigente del <strong style="color:var(--gold-light);">1 de mayo al 30 de junio de 2026</strong>.<br/>
+            2 entradas por familia. <a href="#bases">Ver bases y condiciones</a>.<br/>
+            El consumo de alcohol es exclusivo para mayores de 18 años. Bebe con moderación.
+          </p>
+
+        </form>
+
+        <div class="success-msg" id="successMsg">
+          <div class="check">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>¡Estás participando!</h3>
+          <p>
+            Recibimos tu inscripción con éxito.<br/>
+            Si eres el ganador, te contactaremos al correo registrado.<br/>
+            <br/>
+            <em style="color:var(--gold);">Mientras tanto, sigue viviendo a lo MAX.</em>
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ BASES Y CONDICIONES ════════════════ -->
+  <section id="bases" style="padding:4rem 2rem; max-width:760px; margin:0 auto; border-top:1px solid rgba(201,168,76,0.1);">
+    <p class="section-label reveal">Bases y Condiciones</p>
+    <div class="reveal" style="font-size:0.82rem; color:var(--gray); line-height:1.9;">
+      <p style="margin-bottom:0.8rem;"><strong style="color:var(--off-white);">1. Vigencia.</strong> El concurso "Vivir a lo MAX" estará vigente desde el <strong>1 de mayo de 2026</strong> hasta el <strong>30 de junio de 2026</strong> a las 23:59 hrs (hora de Chile Continental).</p>
+      <p style="margin-bottom:0.8rem;"><strong style="color:var(--off-white);">2. Participantes.</strong> Pueden participar personas mayores de 18 años, residentes en Chile, que completen correctamente el formulario de inscripción y acepten las presentes bases.</p>
+      <p style="margin-bottom:0.8rem;"><strong style="color:var(--off-white);">3. Premio.</strong> Un (1) ganador recibirá una visita VIP a Viña Errázuriz en el Valle de Aconcagua para dos personas, que incluye tour por la viña, cata guiada de la línea Errázuriz MAX, almuerzo maridaje y kit de regalo MAX. No incluye traslados ni alojamiento.</p>
+      <p style="margin-bottom:0.8rem;"><strong style="color:var(--off-white);">4. Selección del ganador.</strong> El ganador será elegido al azar entre todos los inscritos válidos, mediante sorteo realizado el <strong>7 de julio de 2026</strong>. El resultado será notificado por correo electrónico.</p>
+      <p style="margin-bottom:0.8rem;"><strong style="color:var(--off-white);">5. Exclusiones.</strong> No podrán participar trabajadores de Viña Errázuriz ni sus familiares directos. Máximo 2 entradas por familia. Solo una participación por RUT.</p>
+      <p style="margin-bottom:0.8rem;"><strong style="color:var(--off-white);">6. Datos personales.</strong> Los datos recopilados serán utilizados exclusivamente para la gestión del concurso, en conformidad con la Ley N° 19.628 sobre Protección de la Vida Privada.</p>
+      <p><strong style="color:var(--off-white);">7. Aceptación.</strong> La participación en el concurso implica la aceptación íntegra de las presentes bases. Viña Errázuriz se reserva el derecho de modificarlas en cualquier momento con previo aviso.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════ FOOTER ══════════════════════════════ -->
+  <footer>
+    <div class="footer-logo">
+      <img src="Recursos/logo-legales.webp" alt="Viña Errázuriz" />
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-links">
+      <a href="#bases">Bases del Concurso</a>
+      <a href="#">Contacto</a>
+    </div>
+    <p class="footer-legal">
+      © 2026 Viña Errázuriz. Todos los derechos reservados.<br/>
+      El abuso del alcohol es perjudicial para la salud. Bebe con moderación.<br/>
+      Prohibida la venta y el suministro de bebidas alcohólicas a menores de 18 años.<br/>
+      Ley N° 19.925 sobre Expendio y Consumo de Bebidas Alcohólicas.
+    </p>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.10 });
+    reveals.forEach(el => observer.observe(el));
+
+    // RUT formatter (Chile)
+    document.getElementById('rut').addEventListener('input', function () {
+      let val = this.value.replace(/[^0-9kK]/g, '');
+      if (val.length > 1) {
+        const body = val.slice(0, -1);
+        const dv   = val.slice(-1).toUpperCase();
+        this.value = body.replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '-' + dv;
+      } else {
+        this.value = val;
+      }
+    });
+
+    // Form submit — guarda en Google Sheets y envía mail de respaldo
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzVntsL8bZcX7eBZBy26j7s2gBFbkgQHkAfYov-tDBxowBMVALg-Y5OLLGDSxZJUivVDg/exec';
+
+    document.getElementById('concursoForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const nombre    = document.getElementById('nombre').value.trim();
+      const apellido  = document.getElementById('apellido').value.trim();
+      const email     = document.getElementById('email').value.trim();
+      const telefono  = document.getElementById('telefono').value.trim();
+      const rut       = document.getElementById('rut').value.trim();
+      const mayoria   = document.getElementById('mayoria').checked;
+      const marketing = document.getElementById('marketing').checked;
+
+      if (!nombre || !apellido || !email || !telefono || !rut) {
+        showError('Por favor completa todos los campos requeridos.');
+        return;
+      }
+      if (!email.includes('@') || !email.includes('.')) {
+        showError('Por favor ingresa un correo electrónico válido.');
+        return;
+      }
+      if (!mayoria) {
+        showError('Debes confirmar que eres mayor de 18 años y aceptar las bases.');
+        return;
+      }
+
+      // Deshabilitar botón mientras se envía
+      const btn = document.querySelector('.btn-gold-outline');
+      btn.disabled = true;
+      btn.textContent = 'Enviando...';
+
+      // Enviar datos a Google Sheets
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nombre:    nombre,
+          apellido:  apellido,
+          email:     email,
+          telefono:  telefono,
+          rut:       rut,
+          marketing: marketing ? 'Sí' : 'No'
+        })
+      })
+      .then(() => {
+        // Redirigir a página de confirmación
+        window.location.href = 'gracias.html';
+      })
+      .catch(() => {
+        // Si falla el envío igual redirigimos (los datos se recuperan por mail)
+        window.location.href = 'gracias.html';
+      });
+    });
+
+    function showError(msg) {
+      const note = document.querySelector('.form-note');
+      const orig = note.innerHTML;
+      note.innerHTML = '⚠ ' + msg;
+      note.style.color = '#e34f4f';
+      setTimeout(() => { note.innerHTML = orig; note.style.color = ''; }, 4500);
+    }
+  </script>
+
+</body>
+</html>
